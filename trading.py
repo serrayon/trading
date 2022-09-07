@@ -12,7 +12,7 @@ url =f" https://www.bitstamp.net/api/v2/ohlc/{currency_pair}/"
 start = "2021-01-01"
 end = "2021-01-02"
 #pandas has the following method 
-dates = pd.date_range(start,end,freq = "1H")
+dates = pd.date_range(start,end,freq = "6H")
 #using the dates requests above we now convert the data to a 
 #list comprehension in order to get the integer value of the date
 #pandas measures time in micro seconds, to convert divide x.value by 10 to the 
@@ -43,8 +43,19 @@ for first, last in zip(dates, dates[1:]):
 '''print = (data.json()["data"]["ohlc"])'''  
 master_data += data
 df = pd.DataFrame(master_data)
+df = df.drop_duplicates()
+#pandas sometimes pulls data and it thinks its a string we want 
+#it to recognize integers
+df["timestamp"] = df["timestamp"].astype(int)
+df = df.sort_values(by="timestamp")
+#filteers for dates begining with our range
+df = df[ df["timestamp"] >= dates[0]]
+df = df[ df["timestamp"] < dates[-1]]
+
 
 #when you get the dataframe back copy timestamp and 
 #go to epochconverter.com and it will convert it to what 
 #it corresponds to
 print(df)
+#this will save the file for backtesting
+df.to_csv("tradingBot.csv", index=False)
