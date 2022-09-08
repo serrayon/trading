@@ -1,0 +1,3 @@
+#!/Users/octavioserrano/python_projects/trading/trading/env/bin/python3
+from numba.pycc import main
+main()

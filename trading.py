@@ -51,7 +51,7 @@ df["date"] = pd.to_datetime(df["timestamp"])
 '''print = (data.json()["data"]["ohlc"])'''  
 print(df)
 print(len(df))
-
+#this will save the file for backtesting
 df.to_csv("tradingBot.csv", index=False)
 #pandas sometimes pulls data and it thinks its a string we want 
 #it to recognize integers
@@ -65,4 +65,4 @@ df.to_csv("tradingBot.csv", index=False)
 #go to epochconverter.com and it will convert it to what 
 #it corresponds to
 
-#this will save the file for backtesting
+
